@@ -2,6 +2,8 @@ import * as readline from 'node:readline/promises';
 import * as fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { readFilebyStream } from './helpers/readFileByStream.js';
+import { createFile } from './helpers/createFile.js';
 let currentPath = os.userInfo().homedir
 const userNameArg = process.argv.find((arg) => arg.startsWith('--username='))
 let username = null
@@ -73,6 +75,14 @@ rl.on('line', async (line) => {
         } catch(err){
             console.log(`Error: ${err.message}`)
         }
+    } else if(trimmedLine.startsWith('cat ')){
+        const filePath = trimmedLine.split(' ')[1]
+        readFilebyStream(filePath)
+
+    } else if(trimmedLine.startsWith('add ')){
+        const filePath = trimmedLine.split(' ')[1]
+        createFile(filePath)
+
     } else{
         console.log('Invalid input')
     }
