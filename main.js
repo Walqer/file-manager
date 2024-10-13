@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { readFilebyStream } from './helpers/readFileByStream.js';
 import { createFile } from './helpers/createFile.js';
+import { renameFile } from './helpers/renameFile.js';
 let currentPath = os.userInfo().homedir
 const userNameArg = process.argv.find((arg) => arg.startsWith('--username='))
 let username = null
@@ -82,6 +83,9 @@ rl.on('line', async (line) => {
     } else if(trimmedLine.startsWith('add ')){
         const filePath = trimmedLine.split(' ')[1]
         createFile(filePath)
+
+    } else if (trimmedLine.startsWith('rn ')){
+       await renameFile(trimmedLine.split(' ')[1],trimmedLine.split(' ')[2])
 
     } else{
         console.log('Invalid input')
