@@ -9,6 +9,7 @@ import { copyFile } from './helpers/copyFile.js';
 import { deleteFile } from './helpers/deleteFile.js';
 import {moveFile} from './helpers/moveFile.js';
 import { printOSInfo } from './helpers/printOsInfo.js';
+import { calculateHash } from './helpers/calculateHash.js';
 let currentPath = os.userInfo().homedir
 const userNameArg = process.argv.find((arg) => arg.startsWith('--username='))
 let username = null
@@ -105,6 +106,9 @@ rl.on('line', async (line) => {
         await deleteFile(filePath)
     } else if (trimmedLine.startsWith('os')) {
         printOSInfo(trimmedLine)
+    } else if (trimmedLine.startsWith('hash')){
+        const filePath = trimmedLine.split(' ')[1]
+        calculateHash(filePath)
     } else{
         console.log('Invalid input')
     }
