@@ -10,6 +10,8 @@ import { deleteFile } from './helpers/deleteFile.js';
 import {moveFile} from './helpers/moveFile.js';
 import { printOSInfo } from './helpers/printOsInfo.js';
 import { calculateHash } from './helpers/calculateHash.js';
+import { compress } from './helpers/compress.js';
+import { decompress } from './helpers/decompress.js';
 let currentPath = os.userInfo().homedir
 const userNameArg = process.argv.find((arg) => arg.startsWith('--username='))
 let username = null
@@ -109,6 +111,12 @@ rl.on('line', async (line) => {
     } else if (trimmedLine.startsWith('hash')){
         const filePath = trimmedLine.split(' ')[1]
         calculateHash(filePath)
+    } else if (trimmedLine.startsWith('compress')){
+        const [_,filePath, destination] = trimmedLine.split(' ')
+        compress(filePath,destination)
+    } else if (trimmedLine.startsWith('decompress')){
+        const [_,filePath, destination] = trimmedLine.split(' ')
+        decompress(filePath,destination)
     } else{
         console.log('Invalid input')
     }
